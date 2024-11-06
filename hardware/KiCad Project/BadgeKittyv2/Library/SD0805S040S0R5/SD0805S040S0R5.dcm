@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP SD0805S040S0R5
+D AVX - SD0805S040S0R5 - DIODE, SCHOTTKY, 0.5A, 40V, SOD-323
+K
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets-DGA23/1394221.pdf
+$ENDCMP
+#
+#End Doc Library
