@@ -17,7 +17,7 @@ bool highpower = false;
 #define eye_brightness  20 //0-255
 #define total_cues 8
 #define DEBOUNCE_DELAY 50 // Debounce delay in milliseconds
-#define SLEEP_TIMEOUT 60000 // 10 minutes in milliseconds
+#define SLEEP_TIMEOUT 600000 // 10 minutes in milliseconds
 volatile unsigned long lastActivityTime = 0; // Tracks the time of last activity
 
 
@@ -185,14 +185,14 @@ void cue3(){ //both random pulse Bonus look
 }
 
 void cue4(){ //red green 
-  eyes.setPixelColor(0, 255, 0, 0); 
-  eyes.setPixelColor(1, 0, 255, 0);
+  eyes.setPixelColor(0, 255, 255, 0); 
+  eyes.setPixelColor(1, 255, 0, 0);
   eyes.show();        
   //if (noise) tone(MEOWS, 500, 100);
   delay(500);
 
-  eyes.setPixelColor(0, 0, 255, 0); 
-  eyes.setPixelColor(1, 255, 0, 0);
+  eyes.setPixelColor(0, 255, 0, 0); 
+  eyes.setPixelColor(1, 255, 255, 0);
   eyes.show();  
   //if (noise) tone(MEOWS, 700, 100);      
   delay(500);
