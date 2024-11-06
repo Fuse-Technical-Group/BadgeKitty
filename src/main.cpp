@@ -15,7 +15,7 @@ bool kohler = false;
 bool highpower = false;
 
 #define eye_brightness  20 //0-255
-#define total_cues 8
+#define total_cues 7
 #define DEBOUNCE_DELAY 50 // Debounce delay in milliseconds
 #define SLEEP_TIMEOUT 600000 // 10 minutes in milliseconds
 volatile unsigned long lastActivityTime = 0; // Tracks the time of last activity
@@ -60,6 +60,9 @@ ISR(PORTA_PORT_vect) {
 }
 
 
+void delay500(){
+  delay(500);
+}
 //sets sleep modes for kitty
 void sleepCat() {
     power_all_disable();              // Disable power to unused peripherals
@@ -104,8 +107,12 @@ void setup() {
     pinMode(EAR_GPI, INPUT_PULLUP);
     pinMode(TAIL_GPI, INPUT_PULLUP);
     initSleepMode();  // set up the sleep mode
-
-
+        
+    highpower = digitalRead(PIN_PA7);
+    highpower = !highpower;
+    kohler = highpower;
+    //babin = highpower;
+    //kohler = babin = highpower;
     if(!digitalRead(EAR_GPI)){kohler = true;}
     if(!digitalRead(TAIL_GPI)){babin = true;}
     
@@ -115,10 +122,7 @@ void setup() {
 //PORT_ISC_
     
     eyes.setBrightness(digitalRead(PIN_PA7) ? eye_brightness : 100);
-    
-    highpower = digitalRead(PIN_PA7);
-    highpower = !highpower;
-    
+
     // disable ADC
     ADC0.CTRLA &= ~ADC_ENABLE_bm;
     //PRR |= (1 << ADC0_bp);
@@ -131,7 +135,6 @@ void setup() {
     
     if(kohler){delay(1000);}
     else if(babin){delay(1000);}
-
     sei();                                     // Enable global interrupts
     lastActivityTime = millis(); // Initialize the activity timer
 
@@ -261,6 +264,8 @@ void cue7(){ //angry red
 
 void loop() {
   switch(cue) {
+
+    
     case 1: //Babin Cue green
       if(babin != true){cue++;}
       else{cue1();}
@@ -281,20 +286,20 @@ void loop() {
       cue4();   
       break;
     
-    case 5: //skip
+    //case 5: //skip
       //cue5();
-      cue++; //we're skipping this one
-      break;
+      //cue++; //we're skipping this one
+      //break;
 
-    case 6: // white random
+    case 5: // white random
       cue3();  
       break;
 
-    case 7: // angry red
+    case 6: // angry red
       cue7();  
       break;
 
-    case 8: // sleep
+    case 7: // sleep
       lastActivityTime = 0;
       appTimeout();  // Enter sleep mode when cue is 8
       break;
