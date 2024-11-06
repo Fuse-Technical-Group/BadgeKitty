@@ -1,0 +1,25 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model 3FSH9
+#/255216/1245084/2.50/4/4/Switch
+DEF 3FSH9 S 0 30 Y Y 1 F N
+F0 "S" 650 300 50 H V L CNN
+F1 "3FSH9" 650 200 50 H V L CNN
+F2 "3CSH9" 650 100 50 H I L CNN
+F3 "https://componentsearchengine.com/Datasheets/1/3FSH9.pdf" 650 0 50 H I L CNN
+F4 "IP67 Plunger Tactile Switch, Single Pole Single Throw (SPST) 50 mA @ 24 V dc" 650 -100 50 H I L CNN "Description"
+F5 "6" 650 -200 50 H I L CNN "Height"
+F6 "642-3FSH9" 650 -300 50 H I L CNN "Mouser Part Number"
+F7 "https://www.mouser.co.uk/ProductDetail/Apem/3FSH9?qs=tV%252Bq0wi8hA9W0fe0PhErng%3D%3D" 650 -400 50 H I L CNN "Mouser Price/Stock"
+F8 "Apem" 650 -500 50 H I L CNN "Manufacturer_Name"
+F9 "3FSH9" 650 -600 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+X 1 1 800 0 200 L 50 50 0 0 P
+X 2 2 0 0 200 R 50 50 0 0 P
+X 3 3 800 -100 200 L 50 50 0 0 P
+X 4 4 0 -100 200 R 50 50 0 0 P
+P 5 0 1 6 200 100 600 100 600 -200 200 -200 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library
