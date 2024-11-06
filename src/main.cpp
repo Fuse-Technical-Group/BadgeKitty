@@ -17,8 +17,8 @@ bool highpower = false;
 #define eye_brightness  20 //0-255
 #define total_cues 8
 #define DEBOUNCE_DELAY 50 // Debounce delay in milliseconds
-#define SLEEP_TIMEOUT 6000 // 10 minutes in milliseconds
-unsigned long lastActivityTime = 0; // Tracks the time of last activity
+#define SLEEP_TIMEOUT 60000 // 10 minutes in milliseconds
+volatile unsigned long lastActivityTime = 0; // Tracks the time of last activity
 
 
 
@@ -37,7 +37,7 @@ const uint8_t colors[][3] = {
   {255, 0, 127}   // Pink
 };
 
-bool PoorMansDebounce = false; 
+volatile bool PoorMansDebounce = false; 
 
 ISR(PORTA_PORT_vect) {
     // Clear the interrupt flag for the button pin (PA7 in this case)
@@ -48,15 +48,15 @@ ISR(PORTA_PORT_vect) {
     // Increment cue every other interrupt
     if (PoorMansDebounce) {
         // Increment cue if it's within the limit; reset if it exceeds total_cues
-        if (cue < total_cues) {
+        if (cue <= total_cues) {
             cue++;
         } else {
             cue = 1;
         }
     }
-
     // Toggle the PoorMansDebounce flag every time the ISR is called
     PoorMansDebounce = !PoorMansDebounce;
+    lastActivityTime = millis(); // Reset the activity timer on wake
 }
 
 
@@ -73,41 +73,37 @@ void sleepCat() {
     //sleep_disable();                  // Disable sleep mode after waking up
    // power_all_enable();               // Re-enable power to all peripherals
 }
+unsigned long current = 0;
 
 void appTimeout(){
-  unsigned long current = millis();
-  if ((current - lastActivityTime) > 6000) {
-        //sleepCat();  // Enter sleep mode after timeout
-    //power_all_disable();              // Disable power to unused peripherals
-    //set_sleep_mode(SLEEP_MODE_IDLE); // Use PWR_DOWN for the lowest power mode
-    //    set_sleep_mode(SLEEP_MODE_PWR_DOWN); // Use PWR_DOWN for the lowest power mode
+  current = millis();
+  if (((current - lastActivityTime) > SLEEP_TIMEOUT) && !highpower) {
     eyes.setPixelColor(0, 0, 0,0);
     eyes.setPixelColor(1,0,0,0);
     eyes.show();
-    delay(30);
+    //delay(30);
     sleep_enable();                   // Enable sleep before entering mode
     sleep_cpu();
     sei();
-    //sleep_mode();                     // Enter sleep mode (device will sleep until interrupt wakes it)
+    sleep_mode();                     // Enter sleep mode (device will sleep until interrupt wakes it)
     // Device wakes here upon interrupt
     sleep_disable();                  // Disable sleep mode after waking up
     power_all_enable();               // Re-enable power to all peripherals
     lastActivityTime = millis(); // Reset the activity timer on wake
-        //eyes.setBrightness(255);
     }
 }
 
 void initSleepMode(void) {
   //SLPCTRL.CTRLA = SLPCTRL_SMODE_IDLE_gc; // set sleep mode to "idle"
-  SLPCTRL.CTRLA = SLPCTRL_SMODE_STDBY_gc; // set sleep mode to "standby"  
-  //SLPCTRL.CTRLA = SLPCTRL_SMODE_PDOWN_gc; // set sleep mode to "power down"
+  //SLPCTRL.CTRLA = SLPCTRL_SMODE_STDBY_gc; // set sleep mode to "standby"  
+  SLPCTRL.CTRLA = SLPCTRL_SMODE_PDOWN_gc; // set sleep mode to "power down"
   SLPCTRL.CTRLA |= SLPCTRL_SEN_bm;  // enable sleep mode
 }
 
 void setup() {
     pinMode(EAR_GPI, INPUT_PULLUP);
     pinMode(TAIL_GPI, INPUT_PULLUP);
-      initSleepMode();  // set up the sleep mode
+    initSleepMode();  // set up the sleep mode
 
 
     if(!digitalRead(EAR_GPI)){kohler = true;}
@@ -142,7 +138,7 @@ void setup() {
 }
 ///////////////////
 
-void cue1(){ //Babin
+void cue1(){ //Babin Green
   //eyes.setBrightness(eye_brightness); 
   eyes.setPixelColor(0, 0,255,0);
   eyes.setPixelColor(1, 0,255,0);
@@ -158,21 +154,26 @@ void cue1(){ //Babin
   //appTimeout();
     appTimeout();
 }
+int i = 0;
 
-void cue2(){ //Kohler
+
+void cue2(){ //Kohler Rainbow
   #define RAINBOWDELAY 500
-    for (int i = 0; i < 8; i++) {
+    if(i < 8) {
     // Set colors for LEDs 0 and 1 in pairs
     eyes.setPixelColor(0, colors[i][0], colors[i][1], colors[i][2]);           // LED 0
     eyes.setPixelColor(1, colors[(i + 1) % 8][0], colors[(i + 1) % 8][1], colors[(i + 1) % 8][2]);  // LED 1
     eyes.show();
-        appTimeout();
+      i++;
+      delay(RAINBOWDELAY);
+   }
+    else{i = 0;}
+  appTimeout();
 
-    delay(RAINBOWDELAY);
-  }
+
 }
 
-void cue3(){ //both
+void cue3(){ //both random pulse Bonus look
   int eye1 = (millis() % 255);
   eyes.setPixelColor(0, eye1, eye1, eye1);
   eyes.setPixelColor(1, eye1, eye1, eye1);
@@ -183,17 +184,17 @@ void cue3(){ //both
     appTimeout();
 }
 
-void cue4(){
+void cue4(){ //red green 
   eyes.setPixelColor(0, 255, 0, 0); 
   eyes.setPixelColor(1, 0, 255, 0);
   eyes.show();        
-  if (noise) tone(MEOWS, 500, 100);
+  //if (noise) tone(MEOWS, 500, 100);
   delay(500);
 
   eyes.setPixelColor(0, 0, 255, 0); 
   eyes.setPixelColor(1, 255, 0, 0);
   eyes.show();  
-  if (noise) tone(MEOWS, 700, 100);      
+  //if (noise) tone(MEOWS, 700, 100);      
   delay(500);
     appTimeout();
 }
@@ -213,7 +214,7 @@ void cue5(){ //white flash
     appTimeout();
 }
 
-void cue6(){
+void cue6(){ //cyan magenta strobe
   
   eyes.setPixelColor(0, 0, 255, 255); 
   eyes.setPixelColor(1, 0, 0, 0);
@@ -253,7 +254,7 @@ void cue7(){ //angry red
   eyes.show();  
   if (noise) tone(MEOWS, 200, 300);      
   delay(700);
-    appTimeout();
+  appTimeout();
 }
 
 
@@ -262,40 +263,40 @@ void loop() {
   switch(cue) {
     case 1: //Babin Cue green
       if(babin != true){cue++;}
-      else{cue1(); }
+      else{cue1();}
       break;
     
     case 2:
       if(kohler != true){cue++;}
       else{cue2(); 
-} //Kohler Cue rainbow
+        } //Kohler Cue rainbow
       break;
 
-    case 3: //Both Cue
-      if(babin && kohler){cue6();  
-}
+    case 3: //Both Cue cyan magenta chase
+      if(babin && kohler){cue6();}
       else{cue++;}
       break;
    
-    case 4:
+    case 4: //red green
       cue4();   
-break;
+      break;
     
-    case 5:
+    case 5: //skip
       //cue5();
       cue++; //we're skipping this one
       break;
 
-    case 6:
+    case 6: // white random
       cue3();  
- break;
+      break;
 
-    case 7:
+    case 7: // angry red
       cue7();  
-break;
+      break;
 
-    case 8:
-      sleepCat();  // Enter sleep mode when cue is 8
+    case 8: // sleep
+      lastActivityTime = 0;
+      appTimeout();  // Enter sleep mode when cue is 8
       break;
     }
 }
