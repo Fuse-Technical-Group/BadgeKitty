@@ -60,9 +60,13 @@ ISR(PORTA_PORT_vect) {
 }
 
 
-void delay500(){
-  delay(500);
+void turnOffEyes() {
+    eyes.setPixelColor(0, 0, 0, 0);
+    eyes.setPixelColor(1, 0, 0, 0);
+    eyes.show();
 }
+
+
 //sets sleep modes for kitty
 void sleepCat() {
     power_all_disable();              // Disable power to unused peripherals
@@ -81,9 +85,7 @@ unsigned long current = 0;
 void appTimeout(){
   current = millis();
   if (((current - lastActivityTime) > SLEEP_TIMEOUT) && !highpower) {
-    eyes.setPixelColor(0, 0, 0,0);
-    eyes.setPixelColor(1,0,0,0);
-    eyes.show();
+    turnOffEyes();
     //delay(30);
     sleep_enable();                   // Enable sleep before entering mode
     sleep_cpu();
@@ -111,7 +113,7 @@ void setup() {
     highpower = digitalRead(PIN_PA7);
     highpower = !highpower;
     kohler = highpower;
-    //babin = highpower;
+    babin = highpower;
     //kohler = babin = highpower;
     if(!digitalRead(EAR_GPI)){kohler = true;}
     if(!digitalRead(TAIL_GPI)){babin = true;}
@@ -150,9 +152,7 @@ void cue1(){ //Babin Green
   delay(50);
   
   //eyes.setBrightness(0); 
-  eyes.setPixelColor(0, 0,0,0);
-  eyes.setPixelColor(1, 0,0,0);
-  eyes.show();
+  turnOffEyes();
   delay(50);
   //appTimeout();
     appTimeout();
@@ -209,9 +209,7 @@ void cue5(){ //white flash
   if (noise) tone(MEOWS, 500, 100);
   delay(200);
 
-  eyes.setPixelColor(0, 0, 0, 0); 
-  eyes.setPixelColor(1, 0, 0, 0);
-  eyes.show();  
+  turnOffEyes();
   if (noise) tone(MEOWS, 700, 100);      
   delay(200);
     appTimeout();
@@ -252,9 +250,7 @@ void cue7(){ //angry red
   if (noise) tone(MEOWS, 400, 300);
   delay(700);
   
-  eyes.setPixelColor(0, 0, 0, 0); 
-  eyes.setPixelColor(1, 0, 0, 0);
-  eyes.show();  
+  turnOffEyes();
   if (noise) tone(MEOWS, 200, 300);      
   delay(700);
   appTimeout();
