@@ -24,12 +24,11 @@ volatile bool PoorMansDebounce = false;
 volatile unsigned long lastActivityTime = 0; // Tracks the time of last activity
 volatile uint8_t cue = 1;  // Variable to be incremented by the interrupt
 unsigned long current = 0;
-int i = 0; //counter for rainbow cues 
 
 
 
 //rainbow array
-const uint8_t PROGMEM colors[][3] = {
+const uint8_t colors[][3] = {
   {255, 0, 0},    // Red
   {255, 127, 0},  // Orange
   {255, 255, 0},  // Yellow
@@ -147,8 +146,11 @@ void cue1(){ //Babin Green
   sleepKitty();
 }
 
+int i = 0; //counter for rainbow cues 
+
 
 void cue2(){ //Kohler Rainbow
+
   #define RAINBOWDELAY 500
     if(i < 8) {
     // Set colors for LEDs 0 and 1 in pairs
