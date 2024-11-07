@@ -13,7 +13,7 @@
 
 #define noise true
 #define eye_brightness  20 //0-255
-#define total_cues 7
+#define total_cues 8
 #define SLEEP_TIMEOUT 600000 // 10 minutes in milliseconds
 
 bool babin = false; 
@@ -29,12 +29,12 @@ unsigned long current = 0;
 
 //rainbow array
 const uint8_t colors[][3] = {
-  {255, 0, 0},    // Red
-  {255, 127, 0},  // Orange
-  {255, 255, 0},  // Yellow
-  {0, 255, 0},    // Green
-  {0, 255, 255},  // Cyan
-  {0, 0, 255},    // Blue
+  {255, 0, 0},    // 0 Red
+  {255, 127, 0},  // 1 Orange
+  {255, 255, 0},  // 2 Yellow
+  {0, 255, 0},    // 3 Green
+  {0, 255, 255},  // 4 Cyan
+  {0, 0, 255},    // 5 Blue
   {255, 0, 255},  // Magenta
   {255, 0, 127}   // Pink
 };
@@ -166,7 +166,7 @@ void cue2(){ //Kohler Rainbow
 
 }
 
-void cue3(){ //both random pulse Bonus look
+void cue3(){ //both random pulse 
   int eye1 = (millis() % 255);
   eyes.setPixelColor(0, eye1, eye1, eye1);
   eyes.setPixelColor(1, eye1, eye1, eye1);
@@ -177,7 +177,7 @@ void cue3(){ //both random pulse Bonus look
   sleepKitty();
 }
 
-void cue4(){ //red green 
+void cue4(){ //Yellow Red
   eyes.setPixelColor(0, 255, 255, 0); 
   eyes.setPixelColor(1, 255, 0, 0);
   eyes.show();        
@@ -205,7 +205,7 @@ void cue5(){ //white flash
    sleepKitty();
 }
 
-void cue6(){ //cyan magenta strobe
+void cue6(){ //cyan magenta strobe BONUS Look
   
   eyes.setPixelColor(0, 0, 255, 255); 
   eyes.setPixelColor(1, 0, 0, 0);
@@ -247,6 +247,17 @@ void cue7(){ //angry red
 }
 
 
+void cue8(){ //blue
+  eyes.setPixelColor(0, colors[5][0], colors[5][1], colors[5][2]); 
+  eyes.setPixelColor(1, colors[5][0], colors[5][1], colors[5][2]);
+  eyes.show();        
+  delay(500);
+  
+  turnOffEyes();
+  delay(500);
+  sleepKitty();
+}
+
 
 void loop() {
   switch(cue) {
@@ -257,7 +268,7 @@ void loop() {
       else{cue1();}
       break;
     
-    case 2:
+    case 2: // kohler rainbow
       if(kohler != true){cue++;}
       else{cue2();} //Kohler Cue rainbow
       break;
@@ -267,7 +278,7 @@ void loop() {
       else{cue++;}
       break;
    
-    case 4: //red green
+    case 4: //red yellow
       cue4();   
       break;
     
@@ -285,8 +296,15 @@ void loop() {
       break;
 
     case 7: // sleep
+      ///lastActivityTime = 0; //this forces instant sleep
+      //sleepKitty();  // Enter sleep mode when cue is 8
+      cue8();
+      break;
+
+    case 8: // sleep
       lastActivityTime = 0; //this forces instant sleep
       sleepKitty();  // Enter sleep mode when cue is 8
+      //cue8();
       break;
     }
 }
