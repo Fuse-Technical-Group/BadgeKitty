@@ -6,7 +6,7 @@
 #include "pins.h"
 
 ////////////// BadegeKitty ////////////
-// November 6 2024
+// November 7 2024
 // ababin@fuse-tg.com
 // codebase for the badgekitty handout
 //////////////////////////////////////
