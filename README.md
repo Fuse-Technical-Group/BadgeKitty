@@ -3,6 +3,8 @@
 
 A fun handout for conferences and tradeshows designed by the Fuse CATS group in Lititz PA
 
+If you have any questions about the CATS group feel free to reach out cats@fuse-tg.com
+
 
 
 
@@ -10,6 +12,7 @@ A fun handout for conferences and tradeshows designed by the Fuse CATS group in 
 
 - [@andybabin](https://www.github.com/octokatherine)
 - [@mkohler99](https://www.github.com/mkohler99)
+- [@Fuse-Technical-Group](https://github.com/Fuse-Technical-Group)
 
 
 ## Features
@@ -19,6 +22,7 @@ A fun handout for conferences and tradeshows designed by the Fuse CATS group in 
 - A whopping 4096kB of flash storage space
 - Dual power source options, USB-C or CR2023 battery
 - Hidden programs to unlock by being social in meatspace (just ask the authors how!)
+- Ability to reprogram via a UPDI programmer
 
 ## Usage/Examples
 
@@ -33,4 +37,5 @@ Hold in the headpat button while powering on. This will increase the LED brightn
 ## Lessons Learned
 
 - 4096kB of flash is a tiny amount
+- CR2032 batteries are terrible
 
