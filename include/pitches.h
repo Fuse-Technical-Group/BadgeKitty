@@ -1,0 +1,23 @@
+#define NOTE_DS5 104
+#define NOTE_E5  110
+#define NOTE_FS5 123
+#define NOTE_B5  165
+#define NOTE_DS6 208
+#define NOTE_E6  220
+#define NOTE_AS5 155
+#define NOTE_CS6 185
+#define NOTE_FS4 62
+#define NOTE_GS4 70
+#define NOTE_D4  49
+#define NOTE_DS4 52
+#define NOTE_FS2 16
+#define NOTE_CS4 46
+#define NOTE_B3  41
+#define NOTE_FS3 31
+#define NOTE_GS3 35
+#define NOTE_E4  55
+#define NOTE_E3  28
+#define NOTE_DS3 26
+#define NOTE_AS3 39
+
+//Multiply by 6
