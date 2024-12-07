@@ -10,12 +10,12 @@
 #include "music.h"
 
 ////////////// BadegeKitty ////////////
-// November 7 2024
+// December 7 2024
 // ababin@fuse-tg.com
 // codebase for the badgekitty handout
 //////////////////////////////////////
 
-#define noise true
+#define noise false
 #define eye_brightness  20 //0-255
 #define total_cues 8
 #define SLEEP_TIMEOUT 600000 // 10 minutes in milliseconds
@@ -36,10 +36,6 @@ volatile int lastActivityTime = 0; // Tracks the time of last activity
 volatile uint8_t cue = 1;  // Variable to be incremented by the interrupt
 unsigned int current = 0;
 
-
-
-
-
 //inturruprt routine
 //clears all flags, and incriments the cue number, also updates the idle timeout
 ISR(PORTA_PORT_vect) {
@@ -50,15 +46,14 @@ ISR(PORTA_PORT_vect) {
     // Increment cue every other interrupt
     if (PoorMansDebounce) {
         // Increment cue if it's within the limit; reset if it exceeds total_cues
-        if (cue <= total_cues) {
-            cue++;
-                makeNoise = false;
-
-        } else {
-            cue = 1;
-                makeNoise = false;
-
-        }
+      if (cue <= total_cues) {
+        cue++;
+        makeNoise = false;
+      } 
+      else {
+        cue = 1;
+        makeNoise = false;
+      }
     }
     // Toggle the PoorMansDebounce flag every time the ISR is called
     PoorMansDebounce = !PoorMansDebounce;
@@ -140,20 +135,14 @@ void setup() {
     lastActivityTime = millis(); // Initialize the activity timer
 
    //rndColor = (millis() % 8);
-
-
-
 }
 ///////////////////
-
-
 
 
 void MeowMeowMeow(){
     makeNoise = true;
     while(makeNoise){
       if(!makeNoise){break; cue++;}
-    
       for (unsigned char thisNote = 0; thisNote < sizeof(melody); thisNote++) {
               if(!makeNoise){break; cue++;}
 
@@ -176,6 +165,7 @@ void MeowMeowMeow(){
         noTone(MEOWS); //stop the tone playing:
         //return;
     }
+    return;
   }
 }
 
@@ -184,7 +174,7 @@ void cue1BabinGreen(){ //Babin Green
   setPixelColor(0,255,0);
   setPixelColor(0,255,0);
   show();
-  if (noise) tone(MEOWS, 1000, 20);
+  //if (noise) tone(MEOWS, 1000, 20);
   delay(50);
   
   turnOffEyes();
@@ -193,8 +183,7 @@ void cue1BabinGreen(){ //Babin Green
   sleepKitty();
 }
 
-int i = 0; //counter for rainbow cues 
-
+//int i = 0; //counter for rainbow cues 
 
 void cue2KohlerRainbow(){ //Kohler Rainbow
 /*
@@ -213,15 +202,13 @@ void cue2KohlerRainbow(){ //Kohler Rainbow
   */
   rainbowCycle(360, 8, 60 );
    //Homeslice's docs suck, A == B*C
-
-
 }
 
 void cue3randomColor(){ //both random pulse 
   //MeowMeowMeow();
   int eye1 = (millis() % 4);
-        setPixelColor((colors[rndColor][0]/eye1),(colors[rndColor][1] / eye1),(colors[rndColor][2] / eye1));
-        setPixelColor((colors[rndColor][0]/eye1),(colors[rndColor][1] / eye1),(colors[rndColor][2] / eye1));
+  setPixelColor((colors[rndColor][0]/eye1),(colors[rndColor][1] / eye1),(colors[rndColor][2] / eye1));
+  setPixelColor((colors[rndColor][0]/eye1),(colors[rndColor][1] / eye1),(colors[rndColor][2] / eye1));
   
   setPixelColor(eye1, eye1, eye1);
   setPixelColor(eye1, eye1, eye1);
@@ -236,13 +223,13 @@ void cue4yellowRed(){ //Yellow Red
   setPixelColor(255, 255, 0); 
   setPixelColor(255, 0, 0);
   show();        
-  if (noise) tone(MEOWS, 500, 100);
+  //if (noise) tone(MEOWS, 500, 100);
   delay(500);
 
   setPixelColor(255, 0, 0); 
   setPixelColor(255, 255, 0);
   show();  
-  if (noise) tone(MEOWS, 700, 100);      
+  //if (noise) tone(MEOWS, 700, 100);      
   delay(500);
   sleepKitty();
 }
@@ -253,10 +240,6 @@ void cue5(){ //white flash
   show();        
   if (noise) tone(MEOWS, 500, 100);
   delay(200);
-
-
-
-
 
   turnOffEyes();
   if (noise) tone(MEOWS, 700, 100);      
@@ -321,8 +304,6 @@ void cue8(){ //blue
   setPixelColor(0, 0, brightness);
   show();        
   delay(60);
-
- 
   
   //turnOffEyes();
   //delay(500);
@@ -337,8 +318,6 @@ void cue9meow(){
 void loop() {
   
   switch(cue) {
-
-    
     case 1: //Babin Cue green
       if(babin != true){cue++;}
       else{cue1BabinGreen();}
@@ -372,9 +351,9 @@ void loop() {
       cue7angryRed();  
       break;
 
-      
     case 7: 
       cue9meow();
+      cue++;
       break;
 
     case 8: // sleep

@@ -28,7 +28,7 @@ const uint8_t notes[] = {
 
 
 const uint8_t melody[] = {
-  notes[1], notes[2], notes[3], notes[0], notes[04], notes[02], notes[01], notes[02], notes[03], notes[4], notes[5], notes[06], notes[05], notes[07], notes[04], notes[0]/
+  notes[1], notes[2], notes[3], notes[0], notes[04], notes[02], notes[01], notes[02], notes[03], notes[4], notes[5], notes[06], notes[05], notes[07], notes[04], notes[0],
   
   notes[03], notes[0], notes[01], notes[02], notes[03], notes[0], notes[04], notes[8], notes[07], notes[04], notes[8], notes[6], notes[05], notes[06], notes[8], notes[9], 
   notes[10], notes[11], notes[12], notes[13], notes[14], notes[11], notes[14], notes[15], notes[15], notes[14], notes[11], notes[11], notes[14], notes[15], notes[14], notes[12], 
@@ -44,7 +44,10 @@ const uint8_t melody[] = {
   
   notes[16], notes[15], notes[15], notes[21], notes[15], notes[16], notes[17], notes[15], notes[18], notes[12], notes[18], notes[9], notes[15], notes[21], notes[15], notes[16], 
   
-  notes[17], notes[15], notes[16], notes[17], notes[15], notes[14], //notes[12], notes[15], notes[18], notes[12], notes[18], notes[9], notes[15], notes[15], notes[16], notes[17], 
+  notes[17], notes[15], notes[16], notes[17], notes[15], 
+  
+  
+  notes[14], notes[12], notes[15], notes[18], notes[12], notes[18], notes[9], notes[15], notes[15], notes[16], notes[17] 
   
   /*
   notes[15], notes[16], notes[18], notes[12], notes[14], notes[15], notes[19], notes[20], notes[19], notes[16], notes[15], notes[16], notes[17], notes[15], notes[16], notes[17], 
