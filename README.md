@@ -5,6 +5,7 @@ A fun handout for conferences and tradeshows designed by the Fuse CATS group in 
 
 If you have any questions about the CATS group feel free to reach out cats@fuse-tg.com
 
+If you're curious about what fuse does check us out at https://fuse-tg.com
 
 
 
